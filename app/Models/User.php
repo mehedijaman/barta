@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -20,10 +19,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'username',
         'email',
         'password',
-        'bio',
     ];
 
     /**
@@ -45,22 +42,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    public static function CheckDuplicateEmail(string $email) : bool {
-        $user = self::where('email', $email)->first();
-
-        if($user)
-            return true;
-        else
-            return false;
-    }
-
-    public static function checkDuplicateUsername( string $username ) : bool {
-        $user = self::where('username', $username)->first();
-
-        if($user)
-            return true;
-        else
-            return false;
-    }
 }

@@ -2,43 +2,62 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ProfileController extends Controller
 {
-    public function index(){
-        return view('profile');
+    /**
+     * Display the user's profile form.
+     */
+    public function edit(Request $request): Response
+    {
+        return Inertia::render('Profile/Edit', [
+            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'status' => session('status'),
+        ]);
     }
 
-    public function edit(){
-        return view('profile_edit');
-    }
+    /**
+     * Update the user's profile information.
+     */
+    public function update(ProfileUpdateRequest $request): RedirectResponse
+    {
+        $request->user()->fill($request->validated());
 
-    public function update(Request $request){
-        if($this->checkDuplicateEmail($request->email)){
-            return back()->with('error','Email already exists');
+        if ($request->user()->isDirty('email')) {
+            $request->user()->email_verified_at = null;
         }
 
-        try {
-            $user = User::find(Auth::id());
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->bio = $request->bio;
-            $user->save();
-            return back()->with('success','User Updated Successfully');
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        $request->user()->save();
+
+        return Redirect::route('profile.edit');
     }
 
-    public function checkDuplicateEmail(string $email) : bool {
-        $user = User::where('email', $email)->whereNot('id', Auth::id() )->first();
+    /**
+     * Delete the user's account.
+     */
+    public function destroy(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'password' => ['required', 'current_password'],
+        ]);
 
-        if($user)
-            return true;
-        else
-            return false;
+        $user = $request->user();
+
+        Auth::logout();
+
+        $user->delete();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return Redirect::to('/');
     }
 }
