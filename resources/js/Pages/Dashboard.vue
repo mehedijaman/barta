@@ -11,5 +11,9 @@ import PostCard from '@/Components/PostCard.vue';
     <AuthenticatedLayout>
             <PostCreate></PostCreate>
             <PostCard></PostCard>
+            <PostCard></PostCard>
+            <PostCard></PostCard>
+            <PostCard></PostCard>
+            <PostCard></PostCard>
     </AuthenticatedLayout>
 </template>

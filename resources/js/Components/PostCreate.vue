@@ -1,6 +1,6 @@
 <script setup></script>
 <template>
-    <div class="max-w-2xl">
+    <div class="mt-4 flex justify-center">
         <form method="POST" enctype="multipart/form-data"
             class="bg-white border-2 border-black rounded-lg shadow px-4 py-5 sm:px-6 space-y-3">
             <!-- Create Post Card Top -->
@@ -81,5 +81,5 @@
             </div>
             <!-- /Create Post Card Bottom -->
         </form>
-    </div>>
+    </div>
 </template>
