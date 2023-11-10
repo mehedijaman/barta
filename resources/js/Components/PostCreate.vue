@@ -1,9 +1,28 @@
-<script setup></script>
+<script setup>
+import{ reactive } from 'vue';
+import { router, useForm } from '@inertiajs/vue3';
+import toast from '@/Stores/toast';
+
+const form = useForm({
+    content: null
+});
+
+function createPost() {
+    form.post(route('post.create'), {
+        preserveScroll:true,
+        onSuccess: () => {
+            form.reset();
+            toast.add({
+                message: 'Post created successfully'
+            });
+        }
+    });
+}
+
+</script>
 <template>
-    <div class="mt-4 flex justify-center">
-        <form method="POST" enctype="multipart/form-data"
-            class="bg-white border-2 border-black rounded-lg shadow px-4 py-5 sm:px-6 space-y-3">
-            <!-- Create Post Card Top -->
+    <div class="bg-white border-2 border-black rounded-lg shadow p-4 sm:px-6 max-w-2xl mt-4 mx-auto">
+        <form @submit.prevent="createPost()" class="space-y-3">
             <div>
                 <div class="flex items-start /space-x-3/">
                     <!-- User Avatar -->
@@ -15,14 +34,13 @@
 
                     <!-- Content -->
                     <div class="text-gray-700 font-normal w-full">
-                        <textarea
+                        <textarea v-model="form.content"
                             class="block w-full pt-2 text-gray-900 rounded-lg border-none outline-none focus:ring-0 focus:ring-offset-0"
-                            name="barta" rows="2" placeholder="What's going on, Shamim?"></textarea>
+                            name="barta" rows="2" placeholder="What's going on, {{ Auth::user()->name }}?"></textarea>
                     </div>
                 </div>
             </div>
 
-            <!-- Create Post Card Bottom -->
             <div>
                 <!-- Card Bottom Action Buttons -->
                 <div class="flex items-center justify-between">
@@ -79,7 +97,6 @@
                 </div>
                 <!-- /Card Bottom Action Buttons -->
             </div>
-            <!-- /Create Post Card Bottom -->
         </form>
     </div>
 </template>

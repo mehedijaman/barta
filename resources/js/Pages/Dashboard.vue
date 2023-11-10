@@ -3,17 +3,19 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import PostCreate from '@/Components/PostCreate.vue';
 import PostCard from '@/Components/PostCard.vue';
+import ToastNotification from '@/Components/ToastNotification.vue';
+
+const props = defineProps({
+    posts:Object
+});
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head title="Discover" />
 
     <AuthenticatedLayout>
-            <PostCreate></PostCreate>
-            <PostCard></PostCard>
-            <PostCard></PostCard>
-            <PostCard></PostCard>
-            <PostCard></PostCard>
-            <PostCard></PostCard>
+        <ToastNotification></ToastNotification>
+        <PostCreate></PostCreate>
+        <PostCard v-for="(post, index) in props.posts" :key="index" :post="post"></PostCard>
     </AuthenticatedLayout>
 </template>
