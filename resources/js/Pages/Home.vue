@@ -11,10 +11,9 @@ const props = defineProps({
 </script>
 
 <template>
-    <Head title="Discover" />
+    <Head title="Home" />
 
     <AuthenticatedLayout>
-        <ToastNotification></ToastNotification>
         <PostCreate></PostCreate>
         <PostCard v-for="(post, index) in props.posts" :key="index" :post="post"></PostCard>
     </AuthenticatedLayout>

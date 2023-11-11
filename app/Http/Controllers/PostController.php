@@ -28,9 +28,14 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $post = new Post();
-        $post->content = $request->content;
-        $post->save();
+        $request->validate([
+            'content' => 'required'
+        ]);
+
+        Post::create([
+            'content' => $request->content
+        ]);
+
         return back()->with('success', 'Post Created Successfully');
     }
 
@@ -63,6 +68,7 @@ class PostController extends Controller
      */
     public function destroy(post $post)
     {
-        //
+        Post::destroy($post->id);
+        return back();
     }
 }

@@ -2,13 +2,14 @@
 import{ reactive } from 'vue';
 import { router, useForm } from '@inertiajs/vue3';
 import toast from '@/Stores/toast';
+import InputError from '@/Components/InputError.vue';
 
 const form = useForm({
     content: null
 });
 
 function createPost() {
-    form.post(route('post.create'), {
+    form.post(route('posts.store'), {
         preserveScroll:true,
         onSuccess: () => {
             form.reset();
@@ -21,14 +22,14 @@ function createPost() {
 
 </script>
 <template>
-    <div class="bg-white border-2 border-black rounded-lg shadow p-4 sm:px-6 max-w-2xl mt-4 mx-auto">
+    <div class="bg-white border-[1px] border-black rounded-lg shadow p-4 sm:px-6 max-w-2xl mt-4 mx-auto">
         <form @submit.prevent="createPost()" class="space-y-3">
             <div>
                 <div class="flex items-start /space-x-3/">
                     <!-- User Avatar -->
                     <div class="flex-shrink-0">
                         <img class="h-10 w-10 rounded-full object-cover"
-                            src="https://avatars.githubusercontent.com/u/831997" alt="Ahmed Shamim" />
+                            src="https://avatars.githubusercontent.com/u/8464835" alt="Ahmed Shamim" />
                     </div>
                     <!-- /User Avatar -->
 
@@ -36,7 +37,8 @@ function createPost() {
                     <div class="text-gray-700 font-normal w-full">
                         <textarea v-model="form.content"
                             class="block w-full pt-2 text-gray-900 rounded-lg border-none outline-none focus:ring-0 focus:ring-offset-0"
-                            name="barta" rows="2" placeholder="What's going on, {{ Auth::user()->name }}?"></textarea>
+                            name="barta" rows="2" placeholder="What's going on, Mehedi?"></textarea>
+                            <InputError class="mt-2" :message="form.errors.content" />
                     </div>
                 </div>
             </div>

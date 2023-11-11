@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\FeedController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,25 +19,40 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register')
-    ]);
-});
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register')
+//     ]);
+// });
 
-Route::get('/dashboard', [FeedController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/message', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('message');
 
 Route::middleware('auth')->group(function () {
-    Route::post('/post', [PostController::class, 'store'])->name('post.create');
-    Route::get('/post/{id}', [PostController::class, 'edit'])->name('post.edit');
-    Route::patch('/post/{id}', [PostController::class, 'update'])->name('post.update');
-    Route::delete('/post/{id}', [PostController::class, 'delete'])->name('post.delete');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 
+    // User routes
+    Route::get('/{username}', [UserController::class, 'index'])->name('user.index');
+    Route::get('/{username}/profile', [UserController::class, 'profile'])->name('user.profile');
+    Route::get('/{username}/followers', [UserController::class, 'followers'])->name('user.followers');
+    Route::get('/{username}/photos', [UserController::class, 'photos'])->name('user.photos');
+    Route::get('/{username}/videos', [UserController::class, 'videos'])->name('user.videos');
+    Route::get('/{username}/groups', [UserController::class, 'groups'])->name('user.groups');
+    Route::get('/{username}/friends', [UserController::class, 'friends'])->name('user.friends');
+
+    // Posts resource routes
+    Route::get('/posts', [PostController::class, 'store'])->name('posts.index');
+    Route::get('/posts/create', [PostController::class, 'store'])->name('posts.create');
+    Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+    Route::get('/posts/post', [PostController::class, 'store'])->name('posts.show');
+    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+    Route::patch('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
+    Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+
+    // Profile Routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
