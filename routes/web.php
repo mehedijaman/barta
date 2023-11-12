@@ -4,9 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,19 +32,20 @@ use Inertia\Inertia;
 //     return Inertia::render('Dashboard');
 // })->middleware(['auth', 'verified'])->name('message');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home')->middleware(['auth','verified']);
+
+Route::middleware(['auth'])->group(function () {
 
     // User routes
-    Route::get('/{username}', [UserController::class, 'index'])->name('user.index');
-    Route::get('/{username}/profile', [UserController::class, 'profile'])->name('user.profile');
-    Route::get('/{username}/messages', [UserController::class, 'messages'])->name('user.messages');
-    Route::get('/{username}/notifications', [UserController::class, 'notifications'])->name('user.notifications');
-    Route::get('/{username}/friends', [UserController::class, 'friends'])->name('user.friends');
-    Route::get('/{username}/followers', [UserController::class, 'followers'])->name('user.followers');
-    Route::get('/{username}/photos', [UserController::class, 'photos'])->name('user.photos');
-    Route::get('/{username}/videos', [UserController::class, 'videos'])->name('user.videos');
-    Route::get('/{username}/groups', [UserController::class, 'groups'])->name('user.groups');
+    // Route::get('/{username}', [UserController::class, 'index'])->name('user.index');
+    // Route::get('/{username}/profile', [UserController::class, 'profile'])->name('user.profile');
+    // Route::get('/{username}/messages', [UserController::class, 'messages'])->name('user.messages');
+    // Route::get('/{username}/notifications', [UserController::class, 'notifications'])->name('user.notifications');
+    // Route::get('/{username}/friends', [UserController::class, 'friends'])->name('user.friends');
+    // Route::get('/{username}/followers', [UserController::class, 'followers'])->name('user.followers');
+    // Route::get('/{username}/photos', [UserController::class, 'photos'])->name('user.photos');
+    // Route::get('/{username}/videos', [UserController::class, 'videos'])->name('user.videos');
+    // Route::get('/{username}/groups', [UserController::class, 'groups'])->name('user.groups');
 
     // Posts resource routes
     Route::get('/posts', [PostController::class, 'store'])->name('posts.index');

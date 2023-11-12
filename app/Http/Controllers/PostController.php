@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class PostController extends Controller
 {
@@ -52,8 +53,7 @@ class PostController extends Controller
      */
     public function edit(post $post)
     {
-        // $post = Post::find($post->id);
-        // return Inertia::render('PostEdit')
+        return Inertia::render('Post/EditPost', ['post' => $post]);
     }
 
     /**
@@ -61,7 +61,12 @@ class PostController extends Controller
      */
     public function update(Request $request, post $post)
     {
-        //
+        $request->validate([
+            'content' => 'required'
+        ]);
+
+        Post::find($post->id)->update(['content' => $request->content]);
+        return back();
     }
 
     /**

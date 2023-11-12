@@ -48,15 +48,15 @@ function deletePost(post){
 
                     <!-- User Info -->
                     <div class="text-gray-900 flex flex-col min-w-0 flex-1">
-                        <Link :href="route('user.index', props.post.author.username)"
+                        <!-- <Link :href="route('user.index', props.post.author.username)"
                             class="hover:underline font-semibold line-clamp-1">
                         {{ props.post.author.name }}
-                        </Link>
+                        </Link> -->
 
-                        <Link :href="route('user.profile', props.post.author.username)"
+                        <!-- <Link :href="route('user.profile', props.post.author.username)"
                             class="hover:underline text-sm text-gray-500 line-clamp-1">
                             @{{ props.post.author.username }}
-                        </Link>
+                        </Link> -->
                     </div>
                     <!-- /User Info -->
                 </div>
@@ -81,8 +81,8 @@ function deletePost(post){
                             class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
 
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
-                                tabindex="-1" id="user-menu-item-0">Edit</a>
+                            <Link :href="route('posts.edit', props.post)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
+                                tabindex="-1" id="user-menu-item-0">Edit</Link>
 
                             <button type="button" @click="deletePost(props.post)" class="w-full block text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
                                 tabindex="-1">Delete</button>
