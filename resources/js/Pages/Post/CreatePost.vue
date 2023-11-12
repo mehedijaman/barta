@@ -1,8 +1,13 @@
 <script setup>
-import{ reactive } from 'vue';
+import{ reactive, computed } from 'vue';
 import { router, useForm } from '@inertiajs/vue3';
 import toast from '@/Stores/toast';
 import InputError from '@/Components/InputError.vue';
+import { usePage } from '@inertiajs/vue3';
+import UserProfilePhoto from '@/Components/UserProfilePhoto.vue';
+
+const page = usePage();
+const user = computed(() => page.props.auth.user);
 
 const form = useForm({
     content: null
@@ -14,7 +19,7 @@ function createPost() {
         onSuccess: () => {
             form.reset();
             toast.add({
-                message: 'Post created successfully'
+                message: 'Post Published successfully'
             });
         }
     });
@@ -28,8 +33,7 @@ function createPost() {
                 <div class="flex items-start /space-x-3/">
                     <!-- User Avatar -->
                     <div class="flex-shrink-0">
-                        <img class="h-10 w-10 rounded-full object-cover"
-                            src="https://avatars.githubusercontent.com/u/8464835" alt="Ahmed Shamim" />
+                        <UserProfilePhoto :photo="user.image"></UserProfilePhoto>
                     </div>
                     <!-- /User Avatar -->
 
@@ -37,7 +41,7 @@ function createPost() {
                     <div class="text-gray-700 font-normal w-full">
                         <textarea v-model="form.content"
                             class="block w-full pt-2 text-gray-900 rounded-lg border-none outline-none focus:ring-0 focus:ring-offset-0"
-                            name="barta" rows="2" placeholder="What's going on, Mehedi?"></textarea>
+                            name="barta" rows="2" :placeholder="`Whats going on, ${user.name} ?`"></textarea>
                             <InputError class="mt-2" :message="form.errors.content" />
                     </div>
                 </div>

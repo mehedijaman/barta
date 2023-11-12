@@ -1,8 +1,13 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { router } from '@inertiajs/vue3';
 import toast from '@/Stores/toast';
+import { usePage } from '@inertiajs/vue3';
+import UserProfilePhoto from '@/Components/UserProfilePhoto.vue';
+
+const page = usePage();
+const user = computed(() => page.props.auth.user);
 
 const props = defineProps({
     post: Object
@@ -42,8 +47,7 @@ function deletePost(post){
                 <div class="flex items-center space-x-3">
                     <!-- User Avatar -->
                     <div class="flex-shrink-0">
-                        <img class="h-10 w-10 rounded-full object-cover"
-                            src="https://avatars.githubusercontent.com/u/8464835" alt="Al Nahian" />
+                        <UserProfilePhoto :photo="props.post.author.image"></UserProfilePhoto>
                     </div>
 
                     <!-- User Info -->
@@ -62,7 +66,7 @@ function deletePost(post){
                 </div>
 
                 <!-- Card Action Dropdown -->
-                <div class="flex flex-shrink-0 self-center" x-data="{ open: false }">
+                <div v-if="user.id == post.created_by" class="flex flex-shrink-0 self-center" x-data="{ open: false }">
                     <div class="relative inline-block text-left">
                         <div>
                             <button @click="toggleDropdown(props.post.id)" type="button"

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
@@ -7,6 +7,11 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
 import ToastNotification from '@/Components/ToastNotification.vue';
+import { usePage } from '@inertiajs/vue3';
+import UserProfilePhoto from '@/Components/UserProfilePhoto.vue';
+
+const page = usePage();
+const user = computed(() => page.props.auth.user);
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -97,9 +102,7 @@ const showingNavigationDropdown = ref(false);
                                                 class="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                                                 id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                                 <span class="sr-only">Open user menu</span>
-                                                <img class="h-8 w-8 rounded-full"
-                                                    src="https://avatars.githubusercontent.com/u/8464835"
-                                                    alt="Mehedi Jaman" />
+                                                <UserProfilePhoto :photo="user.image"></UserProfilePhoto>
                                             </button>
                                         </span>
                                     </template>
