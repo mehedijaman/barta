@@ -45,7 +45,8 @@ class PostController extends Controller
      */
     public function show(post $post)
     {
-        //
+        $post = Post::with('author')->find($post->id);
+        return Inertia::render('Post/ShowPost', ['post' => $post]);
     }
 
     /**

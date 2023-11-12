@@ -38,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
 
     // User routes
     // Route::get('/{username}', [UserController::class, 'index'])->name('user.index');
+    Route::get('/{username}/posts/{post}', [UserController::class, 'index'])->name('user.post');
     // Route::get('/{username}/profile', [UserController::class, 'profile'])->name('user.profile');
     // Route::get('/{username}/messages', [UserController::class, 'messages'])->name('user.messages');
     // Route::get('/{username}/notifications', [UserController::class, 'notifications'])->name('user.notifications');
@@ -51,7 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/posts', [PostController::class, 'store'])->name('posts.index');
     Route::get('/posts/create', [PostController::class, 'store'])->name('posts.create');
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-    Route::get('/posts/post', [PostController::class, 'store'])->name('posts.show');
+    Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
     Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
     Route::patch('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');

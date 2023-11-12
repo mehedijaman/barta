@@ -48,15 +48,15 @@ function deletePost(post){
 
                     <!-- User Info -->
                     <div class="text-gray-900 flex flex-col min-w-0 flex-1">
-                        <!-- <Link :href="route('user.index', props.post.author.username)"
+                        <Link href=""
                             class="hover:underline font-semibold line-clamp-1">
                         {{ props.post.author.name }}
-                        </Link> -->
+                        </Link>
 
-                        <!-- <Link :href="route('user.profile', props.post.author.username)"
+                        <Link href=""
                             class="hover:underline text-sm text-gray-500 line-clamp-1">
                             @{{ props.post.author.username }}
-                        </Link> -->
+                        </Link>
                     </div>
                     <!-- /User Info -->
                 </div>
@@ -81,6 +81,9 @@ function deletePost(post){
                             class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
 
+                            <Link :href="route('posts.show', props.post)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
+                                tabindex="-1" id="user-menu-item-0">Details</Link>
+
                             <Link :href="route('posts.edit', props.post)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
                                 tabindex="-1" id="user-menu-item-0">Edit</Link>
 
@@ -99,7 +102,7 @@ function deletePost(post){
         </div>
 
         <div class="flex items-center gap-2 text-gray-500 text-xs my-2">
-            <span class="">6 minutes ago</span>
+            <Link :href="route('posts.show', props.post)" class="">6 minutes ago</Link>
             <span class="">•</span>
             <span>450 views</span>
         </div>

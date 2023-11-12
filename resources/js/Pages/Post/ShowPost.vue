@@ -1,18 +1,16 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import CreatePost from './CreatePost.vue';
 import PostCard from './PostCard.vue';
 
 const props = defineProps({
-    posts:Object
+    post:Object
 });
 </script>
 
 <template>
-    <Head title="Post List" />
+    <Head title="Post Details" />
     <AuthenticatedLayout>
-        <CreatePost></CreatePost>
-        <PostCard v-for="(post, index) in props.posts" :key="index" :post="post"></PostCard>
+        <PostCard :post="props.post"></PostCard>
     </AuthenticatedLayout>
 </template>
