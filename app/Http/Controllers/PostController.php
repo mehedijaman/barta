@@ -52,7 +52,8 @@ class PostController extends Controller
      */
     public function edit(post $post)
     {
-        //
+        // $post = Post::find($post->id);
+        // return Inertia::render('PostEdit')
     }
 
     /**

@@ -1,9 +1,8 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import PostCreate from '@/Components/PostCreate.vue';
-import PostCard from '@/Components/PostCard.vue';
-import ToastNotification from '@/Components/ToastNotification.vue';
+import CreatePost from './CreatePost.vue';
+import PostCard from './PostCard.vue';
 
 const props = defineProps({
     posts:Object
@@ -11,11 +10,9 @@ const props = defineProps({
 </script>
 
 <template>
-    <Head title="Home" />
-
+    <Head title="Mehedi Jaman" />
     <AuthenticatedLayout>
-        <ToastNotification></ToastNotification>
-        <!-- <PostCreate></PostCreate> -->
+        <CreatePost></CreatePost>
         <PostCard v-for="(post, index) in props.posts" :key="index" :post="post"></PostCard>
     </AuthenticatedLayout>
 </template>

@@ -32,20 +32,22 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('home')" :active="route().current('home')">
                                     Home
                                 </NavLink>
-                                <NavLink :href="route('message')" :active="route().current('message')">
-                                    For you
+                                <NavLink :href="route('user.friends', 'mehedijaman')" :active="route().current('friends')">
+                                    Friends
                                 </NavLink>
-                                <NavLink :href="route('message')" :active="route().current('message')">
-                                    People
+
+                                <NavLink :href="route('user.followers', 'mehedijaman')" :active="route().current('user.followers')">
+                                    Followers
                                 </NavLink>
+
                             </div>
                         </div>
 
                         <div class="hidden sm:flex gap-2 sm:items-center sm:ms-6">
-                            <button type="button"
+                            <!-- <button type="button"
                                 class="text-gray-900 hover:text-white border-[1px] border-gray-800 hover:bg-gray-900 focus:ring-2 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center hidden md:block">
                                 Create Post
-                            </button>
+                            </button> -->
 
                             <button type="button"
                                 class="rounded-full bg-white p-2 text-gray-800 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">

@@ -26,10 +26,13 @@ use Inertia\Inertia;
 //     ]);
 // });
 
+// Route::get('/login', function () {
+//     return Inertia::render('Home');
+// })->middleware(['auth', 'verified'])->name('message');
 
-Route::get('/message', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('message');
+// Route::get('/message', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('message');
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -37,11 +40,13 @@ Route::middleware('auth')->group(function () {
     // User routes
     Route::get('/{username}', [UserController::class, 'index'])->name('user.index');
     Route::get('/{username}/profile', [UserController::class, 'profile'])->name('user.profile');
+    Route::get('/{username}/messages', [UserController::class, 'messages'])->name('user.messages');
+    Route::get('/{username}/notifications', [UserController::class, 'notifications'])->name('user.notifications');
+    Route::get('/{username}/friends', [UserController::class, 'friends'])->name('user.friends');
     Route::get('/{username}/followers', [UserController::class, 'followers'])->name('user.followers');
     Route::get('/{username}/photos', [UserController::class, 'photos'])->name('user.photos');
     Route::get('/{username}/videos', [UserController::class, 'videos'])->name('user.videos');
     Route::get('/{username}/groups', [UserController::class, 'groups'])->name('user.groups');
-    Route::get('/{username}/friends', [UserController::class, 'friends'])->name('user.friends');
 
     // Posts resource routes
     Route::get('/posts', [PostController::class, 'store'])->name('posts.index');
