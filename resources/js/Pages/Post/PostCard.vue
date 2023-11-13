@@ -52,12 +52,12 @@ function deletePost(post){
 
                     <!-- User Info -->
                     <div class="text-gray-900 flex flex-col min-w-0 flex-1">
-                        <Link href=""
+                        <Link :href="route('user.posts', props.post.author.username)"
                             class="hover:underline font-semibold line-clamp-1">
                         {{ props.post.author.name }}
                         </Link>
 
-                        <Link href=""
+                        <Link :href="route('user.profile', props.post.author.username)"
                             class="hover:underline text-sm text-gray-500 line-clamp-1">
                             @{{ props.post.author.username }}
                         </Link>
@@ -102,11 +102,11 @@ function deletePost(post){
         </header>
 
         <div class="py-2 text-gray-700 font-normal">
-            <p> {{ props.post.content }} </p>
+            <p v-html="props.post.content"></p>
         </div>
 
         <div class="flex items-center gap-2 text-gray-500 text-xs my-2">
-            <Link :href="route('posts.show', props.post)" class="">6 minutes ago</Link>
+            <Link :href="route('user.post',{username:props.post.author.username, post:props.post})" class="">6 minutes ago</Link>
             <span class="">•</span>
             <span>450 views</span>
         </div>

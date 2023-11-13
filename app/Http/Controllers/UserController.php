@@ -10,12 +10,23 @@ use Inertia\Inertia;
 
 class UserController extends Controller
 {
-    public function index(string $username)
+    public function posts(string $username)
     {
         $user = User::where('username', $username)->first();
-        $posts = Post::where('created_by', $user->id)->with('author')->orderBy('created_at', 'desc')->get();
+        $posts = Post::with('author')
+            ->where('created_by', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        return Inertia::render('Posts', ['posts' => $posts, 'user' => $user]);
+        return Inertia::render('Timeline', ['posts' => $posts, 'user' => $user]);
+    }
+
+    public function post(string $username, post $post)
+    {
+        $user = User::where('username', $username)->first();
+        $post = Post::with('author')->find($post->id);
+
+        return Inertia::render('Post/ShowPost', ['post' => $post, 'user' => $user]);
     }
 
     public function profile(string $username)

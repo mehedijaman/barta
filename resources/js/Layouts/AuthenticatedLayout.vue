@@ -11,7 +11,7 @@ import { usePage } from '@inertiajs/vue3';
 import UserProfilePhoto from '@/Components/UserProfilePhoto.vue';
 
 const page = usePage();
-const user = computed(() => page.props.auth.user);
+const authUser = computed(() => page.props.auth.user);
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -102,12 +102,13 @@ const showingNavigationDropdown = ref(false);
                                                 class="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                                                 id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                                 <span class="sr-only">Open user menu</span>
-                                                <UserProfilePhoto :photo="user.image"></UserProfilePhoto>
+                                                <UserProfilePhoto :photo="authUser.image"></UserProfilePhoto>
                                             </button>
                                         </span>
                                     </template>
 
                                     <template #content>
+                                        <DropdownLink :href="route('user.posts', authUser.username)"> {{ authUser.name }} </DropdownLink>
                                         <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Log Out

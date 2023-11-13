@@ -32,14 +32,16 @@ use Illuminate\Support\Facades\Route;
 //     return Inertia::render('Dashboard');
 // })->middleware(['auth', 'verified'])->name('message');
 
-Route::get('/', [HomeController::class, 'index'])->name('home')->middleware(['auth','verified']);
 
 Route::middleware(['auth'])->group(function () {
 
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+
     // User routes
     // Route::get('/{username}', [UserController::class, 'index'])->name('user.index');
-    Route::get('/{username}/posts/{post}', [UserController::class, 'index'])->name('user.post');
-    // Route::get('/{username}/profile', [UserController::class, 'profile'])->name('user.profile');
+    Route::get('/{username}/posts', [UserController::class, 'posts'])->name('user.posts');
+    Route::get('/{username}/posts/{post}', [UserController::class, 'post'])->name('user.post');
+    Route::get('/{username}/profile', [UserController::class, 'profile'])->name('user.profile');
     // Route::get('/{username}/messages', [UserController::class, 'messages'])->name('user.messages');
     // Route::get('/{username}/notifications', [UserController::class, 'notifications'])->name('user.notifications');
     // Route::get('/{username}/friends', [UserController::class, 'friends'])->name('user.friends');
