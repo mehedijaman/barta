@@ -5,6 +5,8 @@ import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
+import NProgress from 'nprogress'
+import { router } from '@inertiajs/vue3'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -17,7 +19,9 @@ createInertiaApp({
             .use(ZiggyVue, Ziggy)
             .mount(el);
     },
-    progress: {
-        color: '#4B5563',
-    },
+    progress: false,
 });
+
+
+router.on('start', () => NProgress.start())
+router.on('finish', () => NProgress.done())
