@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
@@ -50,14 +51,23 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/{username}/videos', [UserController::class, 'videos'])->name('user.videos');
     // Route::get('/{username}/groups', [UserController::class, 'groups'])->name('user.groups');
 
-    // Posts resource routes
+    // Posts routes
     Route::get('/posts', [PostController::class, 'store'])->name('posts.index');
-    Route::get('/posts/create', [PostController::class, 'store'])->name('posts.create');
+    Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
     Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
     Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
     Route::patch('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+
+     // Comments routes
+    //  Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
+    //  Route::get('/comments/create', [CommentController::class, 'create'])->name('comments.create');
+     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+     Route::get('/comments/{comment}', [CommentController::class, 'show'])->name('comments.show');
+     Route::get('/comments/{comment}/edit', [CommentController::class, 'edit'])->name('comments.edit');
+     Route::patch('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
+     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
     // Profile Routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -10,7 +10,7 @@ const props = defineProps({
 // const emit = defineEmits(['emit']);
 
 onMounted(() => {
-    setTimeout(() => toast.remove(props.key) , 2000);
+    setTimeout(() => toast.remove(props.key) , 3000);
 });
 </script>
 

@@ -24,7 +24,7 @@ class UserController extends Controller
     public function post(string $username, post $post)
     {
         $user = User::where('username', $username)->first();
-        $post = Post::with('author')->find($post->id);
+        $post = Post::with('author','comments')->find($post->id);
 
         return Inertia::render('Post/ShowPost', ['post' => $post, 'user' => $user]);
     }

@@ -8,30 +8,34 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Post extends Model
+class Comment extends Model
 {
     use HasFactory;
-    use HasUserStamps;
     use HasUuids;
     use SoftDeletes;
+    use HasUserStamps;
 
     protected $fillable = [
+        'post_id',
         'content',
         'media',
         'total_likes',
-        'total_comments',
-        'total_shares',
-        'privacy_level',
-        'hashtags',
         'created_by',
         'updatd_by',
     ];
 
-    public function author(){
+    public function post()
+    {
+        return $this->belongsTo(Post::class, 'post_id', 'id');
+    }
+
+    public function author()
+    {
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
-    public function comments(){
-        return $this->hasMany(Comment::class);
+    public function updater()
+    {
+        return $this->belongsTo(User::class, 'updated_by', 'id');
     }
 }
