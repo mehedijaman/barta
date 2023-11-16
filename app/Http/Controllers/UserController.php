@@ -14,19 +14,17 @@ class UserController extends Controller
     {
         $user = User::where('username', $username)->first();
         $posts = Post::with('author')
-            ->where('created_by', $user->id)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        ->where('user_id', $user->id)
+        ->orderBy('created_at', 'desc')
+        ->get();
 
         return Inertia::render('Timeline', ['posts' => $posts, 'user' => $user]);
     }
 
     public function post(string $username, post $post)
     {
-        $user = User::where('username', $username)->first();
-        $post = Post::with('author','comments')->find($post->id);
-
-        return Inertia::render('Post/ShowPost', ['post' => $post, 'user' => $user]);
+        $post = Post::where('id', $post->id)->with('author','comments.author')->first();
+        return Inertia::render('Post/ShowPost', ['post' => $post]);
     }
 
     public function profile(string $username)

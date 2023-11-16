@@ -16,6 +16,7 @@ class Post extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'user_id',
         'content',
         'media',
         'total_likes',
@@ -23,12 +24,10 @@ class Post extends Model
         'total_shares',
         'privacy_level',
         'hashtags',
-        'created_by',
-        'updatd_by',
     ];
 
     public function author(){
-        return $this->belongsTo(User::class, 'created_by', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function comments(){

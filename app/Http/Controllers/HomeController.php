@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $posts = Post::with('author')->orderBy('created_at', 'desc')->get();
+        $posts = Post::with(['author','comments.author'])->orderBy('created_at', 'desc')->get();
         return Inertia::render('Home', ['posts' => $posts]);
     }
 }

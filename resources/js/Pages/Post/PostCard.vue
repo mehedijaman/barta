@@ -7,16 +7,25 @@ import { usePage } from '@inertiajs/vue3';
 import UserProfilePhoto from '@/Components/UserProfilePhoto.vue';
 import CreateComment from '../Comment/CreateComment.vue';
 import CommentList from '../Comment/CommentList.vue';
+import { DateTime } from 'luxon';
 
 const page = usePage();
-const user = computed(() => page.props.auth.user);
+const authUser = computed(() => page.props.auth.user);
 
 const props = defineProps({
     post: Object
 });
 
-// const totalComments = computed(() => props.post);
-// const totalComments = computed(() => props.post.comments.length);
+const totalComments = computed(() =>{
+    return props.post.comments ? props.post.comments.length : 0;
+});
+
+const postTime = DateTime.fromISO(props.post.created_at);
+const formatedPostTime = postTime.toFormat("d MMMM yyyy 'at' h:mm a");
+
+// const currentTime = DateTime.now();
+// const minutesAgo = currentTime.diff(postTime, 'minutes').toObject.minutes;
+// const minutesAgoString = `${minutesAgo} minutes`
 
 const activeDropdown = ref('');
 
@@ -61,16 +70,16 @@ function deletePost(post){
                         {{ props.post.author.name }}
                         </Link>
 
-                        <Link :href="route('user.profile', props.post.author.username)"
+                        <Link :href="route('user.post',{username:props.post.author.username, post:props.post})"
                             class="hover:underline text-sm text-gray-500 line-clamp-1">
-                            @{{ props.post.author.username }}
+                            {{ formatedPostTime }}
                         </Link>
                     </div>
                     <!-- /User Info -->
                 </div>
 
                 <!-- Card Action Dropdown -->
-                <div v-if="user.id == post.created_by" class="flex flex-shrink-0 self-center" x-data="{ open: false }">
+                <div v-if="authUser.id == post.user_id" class="flex flex-shrink-0 self-center" x-data="{ open: false }">
                     <div class="relative inline-block text-left">
                         <div>
                             <button @click="toggleDropdown(props.post.id)" type="button"
@@ -110,16 +119,14 @@ function deletePost(post){
         </div>
 
         <div class="flex items-center gap-2 text-gray-500 text-xs my-2">
-            <Link :href="route('user.post',{username:props.post.author.username, post:props.post})" class="">6 minutes ago</Link>
-            <span class="">•</span>
             <span>450 Likes</span>
             <span class="">•</span>
-            <span>450 Comments</span>
+            <span>{{ totalComments }} Comments</span>
             <span class="">•</span>
             <span>450 shares</span>
         </div>
 
-        <footer class="border-t border-gray-200 pt-2">
+        <footer class="border-t border-gray-500 pt-2">
             <!-- Card Bottom Action Buttons -->
             <div class="flex items-center justify-between">
                 <div class="flex gap-8 text-gray-600">

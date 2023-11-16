@@ -17,25 +17,19 @@ class Comment extends Model
 
     protected $fillable = [
         'post_id',
+        'user_id',
         'content',
         'media',
-        'total_likes',
-        'created_by',
-        'updatd_by',
+        'total_likes'
     ];
 
     public function post()
     {
-        return $this->belongsTo(Post::class, 'post_id', 'id');
+        return $this->belongsTo(Post::class);
     }
 
     public function author()
     {
-        return $this->belongsTo(User::class, 'created_by', 'id');
-    }
-
-    public function updater()
-    {
-        return $this->belongsTo(User::class, 'updated_by', 'id');
+        return $this->belongsTo(User::class, 'user_id','id');
     }
 }

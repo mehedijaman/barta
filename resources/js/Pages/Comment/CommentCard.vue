@@ -7,7 +7,7 @@ import { usePage } from '@inertiajs/vue3';
 import UserProfilePhoto from '@/Components/UserProfilePhoto.vue';
 
 const page = usePage();
-const user = computed(() => page.props.auth.user);
+const authUser = computed(() => page.props.auth.user);
 
 const props = defineProps({
     comment: Object
@@ -65,7 +65,7 @@ function deleteComment(comment){
                 </div>
 
                 <!-- Card Action Dropdown -->
-                <div v-if="user.id == comment.created_by" class="flex flex-shrink-0 self-center" x-data="{ open: false }">
+                <div v-if="authUser.id == comment.user_id" class="flex flex-shrink-0 self-center" x-data="{ open: false }">
                     <div class="relative inline-block text-left">
                         <div>
                             <button @click="toggleDropdown(props.comment.id)" type="button"

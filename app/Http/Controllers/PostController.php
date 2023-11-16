@@ -49,6 +49,7 @@ class PostController extends Controller
         return Inertia::render('Post/ShowPost', ['post' => $post]);
     }
 
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -76,6 +77,6 @@ class PostController extends Controller
     public function destroy(post $post)
     {
         Post::destroy($post->id);
-        return back();
+        return redirect()->route('home');
     }
 }
