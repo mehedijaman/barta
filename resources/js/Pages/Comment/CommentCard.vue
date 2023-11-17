@@ -5,6 +5,7 @@ import { router } from '@inertiajs/vue3';
 import toast from '@/Stores/toast';
 import { usePage } from '@inertiajs/vue3';
 import UserProfilePhoto from '@/Components/UserProfilePhoto.vue';
+import { DateTime } from 'luxon';
 
 const page = usePage();
 const authUser = computed(() => page.props.auth.user);
@@ -12,6 +13,9 @@ const authUser = computed(() => page.props.auth.user);
 const props = defineProps({
     comment: Object
 });
+
+const commentTime = DateTime.fromISO(props.comment.created_at);
+const formatedCommentTime = commentTime.toFormat("d MMMM yyyy 'at' h:mm a");
 
 const activeDropdown = ref('');
 
@@ -40,27 +44,28 @@ function deleteComment(comment){
 
 </script>
 <template>
-    <article class="bg-white border-[1px] border-black rounded-lg shadow px-4 py-4 sm:px-4 mt-4 w-full">
+    <article class="bg-white border-[1px] border-gray-300 rounded-lg shadow px-4 py-4 sm:px-4 mt-4 w-full">
         <header>
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-3">
                     <!-- User Avatar -->
-                    <!-- <div class="flex-shrink-0">
+                    <div class="flex-shrink-0">
                         <UserProfilePhoto :photo="props.comment.author.image"></UserProfilePhoto>
-                    </div> -->
+                    </div>
 
                     <!-- User Info -->
-                    <!-- <div class="text-gray-900 flex flex-col min-w-0 flex-1">
-                        <Link :href="route('user.comments', props.comment.author.username)"
+                    <div class="text-gray-900 flex flex-col min-w-0 flex-1">
+                        <Link :href="route('user.posts', props.comment.author.username)"
                             class="hover:underline font-semibold line-clamp-1">
                         {{ props.comment.author.name }}
                         </Link>
 
-                        <Link :href="route('user.profile', props.comment.author.username)"
-                            class="hover:underline text-sm text-gray-500 line-clamp-1">
-                            @{{ props.comment.author.username }}
+                        <!-- route('user.profile', props.comment.author.username) -->
+                        <Link href="#"
+                            class="hover:underline text-xs text-gray-500 line-clamp-1">
+                            {{ formatedCommentTime }}
                         </Link>
-                    </div> -->
+                    </div>
                     <!-- /User Info -->
                 </div>
 
@@ -101,11 +106,11 @@ function deleteComment(comment){
             <p v-html="props.comment.content"></p>
         </div>
 
-        <!-- <div class="flex items-center gap-2 text-gray-500 text-xs my-2">
-            <Link :href="route('user.comment',{username:props.comment.author.username, comment:props.comment})" class="">6 minutes ago</Link>
+        <div class="flex items-center gap-2 text-gray-500 text-xs my-2">
+            <span>450 Likes</span>
             <span class="">•</span>
-            <span>450 views</span>
-        </div> -->
+            <span>450 Comments</span>
+        </div>
 
         <footer class="border-t border-gray-200 pt-2">
             <!-- Card Bottom Action Buttons -->
@@ -121,7 +126,7 @@ function deleteComment(comment){
                                 d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
                         </svg>
 
-                        <p>{{ props.comment.total_likes }}</p>
+                        <p>Like</p>
                     </button>
                     <!-- /Heart Button -->
 
@@ -135,7 +140,7 @@ function deleteComment(comment){
                                 d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
                         </svg>
 
-                        <p>{{ props.comment.total_comments }}</p>
+                        <p>Comment</p>
                     </button>
                     <!-- /Comment Button -->
                 </div>

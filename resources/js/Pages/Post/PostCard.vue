@@ -71,7 +71,7 @@ function deletePost(post){
                         </Link>
 
                         <Link :href="route('user.post',{username:props.post.author.username, post:props.post})"
-                            class="hover:underline text-sm text-gray-500 line-clamp-1">
+                            class="hover:underline text-xs text-gray-500 line-clamp-1">
                             {{ formatedPostTime }}
                         </Link>
                     </div>
