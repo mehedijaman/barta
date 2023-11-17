@@ -14,6 +14,12 @@ const props = defineProps({
 
     <AuthenticatedLayout>
         <CreatePost></CreatePost>
-        <PostCard v-for="(post, index) in props.posts" :key="index" :post="post"></PostCard>
+        <TransitionGroup name="fade">
+            <PostCard v-for="post in props.posts" :key="post.id" :post="post"></PostCard>
+        </TransitionGroup>
     </AuthenticatedLayout>
 </template>
+
+<style>
+
+</style>
