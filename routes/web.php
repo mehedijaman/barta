@@ -42,14 +42,14 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/{username}', [UserController::class, 'index'])->name('user.index');
     Route::get('/{username}/posts', [UserController::class, 'posts'])->name('user.posts');
     Route::get('/{username}/posts/{post}', [UserController::class, 'post'])->name('user.post');
-    Route::get('/{username}/profile', [UserController::class, 'profile'])->name('user.profile');
+    Route::get('/{username}/about', [UserController::class, 'about'])->name('user.about');
     // Route::get('/{username}/messages', [UserController::class, 'messages'])->name('user.messages');
     // Route::get('/{username}/notifications', [UserController::class, 'notifications'])->name('user.notifications');
-    // Route::get('/{username}/friends', [UserController::class, 'friends'])->name('user.friends');
-    // Route::get('/{username}/followers', [UserController::class, 'followers'])->name('user.followers');
-    // Route::get('/{username}/photos', [UserController::class, 'photos'])->name('user.photos');
-    // Route::get('/{username}/videos', [UserController::class, 'videos'])->name('user.videos');
-    // Route::get('/{username}/groups', [UserController::class, 'groups'])->name('user.groups');
+    Route::get('/{username}/friends', [UserController::class, 'friends'])->name('user.friends');
+    Route::get('/{username}/followers', [UserController::class, 'followers'])->name('user.followers');
+    Route::get('/{username}/photos', [UserController::class, 'photos'])->name('user.photos');
+    Route::get('/{username}/videos', [UserController::class, 'videos'])->name('user.videos');
+    Route::get('/{username}/groups', [UserController::class, 'groups'])->name('user.groups');
 
     // Posts routes
     Route::get('/posts', [PostController::class, 'store'])->name('posts.index');

@@ -25,23 +25,14 @@ const total = {
 
 <template>
     <UserTimeLineLayout :user="props.user" :total="total">
-        <div class="flex-shrink max-w-full px-4 w-full lg:w-1/3 mb-8">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-                <div class="flex flex-row justify-between pb-3">
-                    <div class="flex flex-col">
-                        <h3 class="text-base font-bold">Information</h3>
-                    </div>
-                </div>
-                <div class="py-3">
-                    <p class="text-gray-500 mb-2">
-                        User Bio here
-                    </p>
-                    <div class="border-t border-gray-200 my-3 dark:border-gray-700"></div>
-                    <div class="ltr:text-left rtl:text-right">
-                        <ul class="mt-2 text-gray-700">
+        <div class="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
+            <div class="w-full flex flex-col 2xl:w-1/3">
+                <div class="flex-1 bg-white rounded-lg shadow-xl p-8">
+                    <h4 class="text-xl text-gray-900 font-bold">Personal Info</h4>
+                    <ul class="mt-2 text-gray-700">
                         <li class="flex border-y py-2">
                             <span class="font-bold w-24">Full name:</span>
-                            <span class="text-gray-700">{{ props.user.name }}</span>
+                            <span class="text-gray-700">Amanda S. Ross</span>
                         </li>
                         <li class="flex border-b py-2">
                             <span class="font-bold w-24">Birthday:</span>
@@ -49,15 +40,15 @@ const total = {
                         </li>
                         <li class="flex border-b py-2">
                             <span class="font-bold w-24">Joined:</span>
-                            <span class="text-gray-700">{{ props.user.created_at }}</span>
+                            <span class="text-gray-700">10 Jan 2022 (25 days ago)</span>
                         </li>
                         <li class="flex border-b py-2">
                             <span class="font-bold w-24">Mobile:</span>
-                            <span class="text-gray-700"></span>
+                            <span class="text-gray-700">(123) 123-1234</span>
                         </li>
                         <li class="flex border-b py-2">
                             <span class="font-bold w-24">Email:</span>
-                            <span class="text-gray-700">{{ props.user.email }}</span>
+                            <span class="text-gray-700">amandaross@example.com</span>
                         </li>
                         <li class="flex border-b py-2">
                             <span class="font-bold w-24">Location:</span>
@@ -83,18 +74,95 @@ const total = {
                             </a>
                         </li>
                     </ul>
+                </div>
+                <div class="flex-1 bg-white rounded-lg shadow-xl mt-4 p-8">
+                    <h4 class="text-xl text-gray-900 font-bold">Activity log</h4>
+                    <div class="relative px-4">
+                        <div class="absolute h-full border border-dashed border-opacity-20 border-secondary"></div>
+
+                        <!-- start::Timeline item -->
+                        <div class="flex items-center w-full my-6 -ml-1.5">
+                            <div class="w-1/12 z-10">
+                                <div class="w-3.5 h-3.5 bg-blue-600 rounded-full"></div>
+                            </div>
+                            <div class="w-11/12">
+                                <p class="text-sm">Profile informations changed.</p>
+                                <p class="text-xs text-gray-500">3 min ago</p>
+                            </div>
+                        </div>
+                        <!-- end::Timeline item -->
+
+                        <!-- start::Timeline item -->
+                        <div class="flex items-center w-full my-6 -ml-1.5">
+                            <div class="w-1/12 z-10">
+                                <div class="w-3.5 h-3.5 bg-blue-600 rounded-full"></div>
+                            </div>
+                            <div class="w-11/12">
+                                <p class="text-sm">
+                                    Connected with <a href="#" class="text-blue-600 font-bold">Colby Covington</a>.</p>
+                                <p class="text-xs text-gray-500">15 min ago</p>
+                            </div>
+                        </div>
+                        <!-- end::Timeline item -->
+
+                        <!-- start::Timeline item -->
+                        <div class="flex items-center w-full my-6 -ml-1.5">
+                            <div class="w-1/12 z-10">
+                                <div class="w-3.5 h-3.5 bg-blue-600 rounded-full"></div>
+                            </div>
+                            <div class="w-11/12">
+                                <p class="text-sm">Invoice <a href="#" class="text-blue-600 font-bold">#4563</a> was created.</p>
+                                <p class="text-xs text-gray-500">57 min ago</p>
+                            </div>
+                        </div>
+                        <!-- end::Timeline item -->
+
+                        <!-- start::Timeline item -->
+                        <div class="flex items-center w-full my-6 -ml-1.5">
+                            <div class="w-1/12 z-10">
+                                <div class="w-3.5 h-3.5 bg-blue-600 rounded-full"></div>
+                            </div>
+                            <div class="w-11/12">
+                                <p class="text-sm">
+                                    Message received from <a href="#" class="text-blue-600 font-bold">Cecilia Hendric</a>.</p>
+                                <p class="text-xs text-gray-500">1 hour ago</p>
+                            </div>
+                        </div>
+                        <!-- end::Timeline item -->
+
+                        <!-- start::Timeline item -->
+                        <div class="flex items-center w-full my-6 -ml-1.5">
+                            <div class="w-1/12 z-10">
+                                <div class="w-3.5 h-3.5 bg-blue-600 rounded-full"></div>
+                            </div>
+                            <div class="w-11/12">
+                                <p class="text-sm">New order received <a href="#" class="text-blue-600 font-bold">#OR9653</a>.</p>
+                                <p class="text-xs text-gray-500">2 hours ago</p>
+                            </div>
+                        </div>
+                        <!-- end::Timeline item -->
+
+                        <!-- start::Timeline item -->
+                        <div class="flex items-center w-full my-6 -ml-1.5">
+                            <div class="w-1/12 z-10">
+                                <div class="w-3.5 h-3.5 bg-blue-600 rounded-full"></div>
+                            </div>
+                            <div class="w-11/12">
+                                <p class="text-sm">
+                                    Message received from <a href="#" class="text-blue-600 font-bold">Jane Stillman</a>.</p>
+                                <p class="text-xs text-gray-500">2 hours ago</p>
+                            </div>
+                        </div>
+                        <!-- end::Timeline item -->
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="flex-shrink max-w-full w-full lg:w-2/3">
-            <!-- <div class="flex flex-row justify-center px-3">
-                        <h3 class="text-base font-bold">Posts</h3>
-                    </div> -->
-            <CreatePost v-if="props.user.username == authUser.username"></CreatePost>
-            <TransitionGroup name="fade">
-                <PostCard v-for="post in props.posts" :key="post.id" :post="post"></PostCard>
-            </TransitionGroup>
+            <div class="flex flex-col w-full 2xl:w-2/3">
+                <div class="flex-1 bg-white rounded-lg shadow-xl p-8">
+                    <h4 class="text-xl text-gray-900 font-bold">About</h4>
+                    <p class="mt-2 text-gray-700">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt voluptates obcaecati numquam error et ut fugiat asperiores. Sunt nulla ad incidunt laboriosam, laudantium est unde natus cum numquam, neque facere. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, magni odio magnam commodi sunt ipsum eum! Voluptas eveniet aperiam at maxime, iste id dicta autem odio laudantium eligendi commodi distinctio!</p>
+                </div>
+            </div>
         </div>
     </UserTimeLineLayout>
 </template>

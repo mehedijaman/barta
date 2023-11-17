@@ -27,39 +27,44 @@ class UserController extends Controller
         return Inertia::render('Post/ShowPost', ['post' => $post]);
     }
 
-    public function profile(string $username)
+    public function about(string $username)
     {
         $user = User::where('username', $username)->first();
-        return Inertia::render('Profile', ['user' => $user]);
+        return Inertia::render('About', ['user' => $user]);
     }
 
     public function friends(string $username){
-        $friends = '';
-        return Inertia::render('Friends', ['friends' => $friends]);
+        $user = User::where('username', $username)->first();
+        return Inertia::render('Friends', ['user' => $user]);
     }
 
     public function followers(string $username){
-        $followers = '';
-        return Inertia::render('Followers', ['followers' => $followers]);
+        $user = User::where('username', $username)->first();
+        return Inertia::render('Followers', ['user' => $user]);
     }
 
     public function photos(string $username){
-        $photos = '';
-        return Inertia::render('photos', ['photos' => $photos]);
+        $user = User::where('username', $username)->first();
+        return Inertia::render('Photos', ['user' => $user]);
     }
 
     public function videos(string $username){
-        $videos = '';
-        return Inertia::render('videos', ['videos' => $videos]);
+        $user = User::where('username', $username)->first();
+        return Inertia::render('Videos', ['user' => $user]);
     }
 
     public function messages(string $username){
         $messages = '';
-        return Inertia::render('messages', ['messages' => $messages]);
+        return Inertia::render('Messages', ['messages' => $messages]);
     }
 
     public function notifications(string $username){
         $notifications = '';
-        return Inertia::render('notifications', ['notifications' => $notifications]);
+        return Inertia::render('Notifications', ['notifications' => $notifications]);
+    }
+
+    public function groups(string $username){
+        $user = User::where('username', $username)->first();
+        return Inertia::render('Groups', ['user' => $user]);
     }
 }
