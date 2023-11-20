@@ -19,6 +19,7 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "lodash": "^4.17.21",
         "luxon": "^3.4.4",
         "nprogress": "^0.2.0"
     }
