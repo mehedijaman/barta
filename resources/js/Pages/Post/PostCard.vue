@@ -16,7 +16,7 @@ const props = defineProps({
     post: Object
 });
 
-const totalComments = computed(() =>{
+const totalComments = computed(() => {
     return props.post.comments ? props.post.comments.length : 0;
 });
 
@@ -29,18 +29,18 @@ const formatedPostTime = postTime.toFormat("d MMMM yyyy 'at' h:mm a");
 
 const activeDropdown = ref('');
 
-function toggleDropdown(id){
-    if(activeDropdown.value == id){
+function toggleDropdown(id) {
+    if (activeDropdown.value == id) {
         activeDropdown.value = '';
     }
-    else{
+    else {
         activeDropdown.value = id;
     }
 }
 
-function deletePost(post){
+function deletePost(post) {
     toggleDropdown(post.id)
-    const url = route('posts.destroy', {'post': post});
+    const url = route('posts.destroy', { 'post': post });
 
     router.delete(url, {
         preserveScroll: true,
@@ -70,9 +70,9 @@ function deletePost(post){
                         {{ props.post.author.name }}
                         </Link>
 
-                        <Link :href="route('user.post',{username:props.post.author.username, post:props.post})"
+                        <Link :href="route('user.post', { username: props.post.author.username, post: props.post })"
                             class="hover:underline text-xs text-gray-500 line-clamp-1">
-                            {{ formatedPostTime }}
+                        {{ formatedPostTime }}
                         </Link>
                     </div>
                     <!-- /User Info -->
@@ -98,14 +98,17 @@ function deletePost(post){
                             class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
 
-                            <Link :href="route('posts.show', props.post)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
+                            <Link :href="route('posts.show', props.post)"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
                                 tabindex="-1" id="user-menu-item-0">Details</Link>
 
-                            <Link :href="route('posts.edit', props.post)" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
+                            <Link :href="route('posts.edit', props.post)"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
                                 tabindex="-1" id="user-menu-item-0">Edit</Link>
 
-                            <button type="button" @click="deletePost(props.post)" class="w-full block text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
-                                tabindex="-1">Delete</button>
+                            <button type="button" @click="deletePost(props.post)"
+                                class="w-full block text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                role="menuitem" tabindex="-1">Delete</button>
                         </div>
                     </div>
 
@@ -115,6 +118,8 @@ function deletePost(post){
         </header>
 
         <div class="py-2 text-gray-700 font-normal">
+            <img v-if="props.post.media && props.post.media.length != 0" :src="`/media/${props.post.media[0].id}/${props.post.media[0].file_name}`"
+                class="min-h-auto w-full rounded-lg object-cover max-h-64 md:max-h-72" alt="" />
             <p v-html="props.post.content"></p>
         </div>
 
@@ -164,11 +169,11 @@ function deletePost(post){
                     <button type="button"
                         class="-m-2 flex gap-2 text-xs items-center rounded-full p-2 text-gray-600 hover:text-gray-800">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
-                    </svg>
-                    <span >Share</span>
+                            stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
+                        </svg>
+                        <span>Share</span>
                     </button>
                     <!-- /Share Button -->
                 </div>
@@ -179,5 +184,4 @@ function deletePost(post){
         <!-- <CreateComment></CreateComment>
         <CommentList></CommentList> -->
     </article>
-
 </template>

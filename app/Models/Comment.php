@@ -7,13 +7,16 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Comment extends Model
+class Comment extends Model implements HasMedia
 {
     use HasFactory;
     use HasUserStamps;
     use HasUuids;
     use SoftDeletes;
+    use InteractsWithMedia;
 
     protected $fillable = [
         'post_id',

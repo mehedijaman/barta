@@ -103,6 +103,8 @@ function deleteComment(comment){
         </header>
 
         <div class="py-2 text-gray-700 font-normal">
+            <img v-if="props.comment.media && props.comment.media.length != 0" :src="`/media/${props.comment.media[0].id}/${props.comment.media[0].file_name}`"
+                class="min-h-auto w-full rounded-lg object-cover max-h-64 md:max-h-72" alt="" />
             <p v-html="props.comment.content"></p>
         </div>
 

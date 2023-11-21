@@ -11,7 +11,7 @@ class UserController extends Controller
     public function posts(string $username)
     {
         $user = User::where('username', $username)->first();
-        $posts = Post::with('author')
+        $posts = Post::with('author', 'media')
             ->where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->get();
@@ -21,7 +21,14 @@ class UserController extends Controller
 
     public function post(string $username, post $post)
     {
-        $post = Post::where('id', $post->id)->with('author', 'comments.author')->first();
+        $post = Post::where('id', $post->id)
+            ->with(
+                'author',
+                'media',
+                'comments.author',
+                'comments.media'
+                )
+            ->first();
 
         return Inertia::render('Post/ShowPost', ['post' => $post]);
     }

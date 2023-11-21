@@ -28,10 +28,14 @@ class CommentController extends Controller
      */
     public function store(StoreCommentRequest $request)
     {
-        Comment::create([
+        $comment = Comment::create([
             'post_id' => $request->postId,
             'content' => $request->content,
         ]);
+
+        if($request->image){
+            $comment->addMedia($request->image)->toMediaCollection();
+        }
 
         return back()->with('success', 'Comment Created Successfully');
     }

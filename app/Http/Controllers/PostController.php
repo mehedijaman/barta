@@ -37,7 +37,10 @@ class PostController extends Controller
             'content' => $request->content,
         ]);
 
-        $post->addMedia($request->image)->toMediaCollection();
+        if($request->image){
+
+            $post->addMedia($request->image)->toMediaCollection();
+        }
 
         return back()->with('success', 'Post Created Successfully');
     }

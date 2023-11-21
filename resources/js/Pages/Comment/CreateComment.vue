@@ -15,11 +15,13 @@ const props = defineProps({
 
 const form = useForm({
     postId:props.post.id,
-    content: null
+    content: null,
+    image: null
 });
 
 function createComment() {
     form.post(route('comments.store'), {
+        forceFormData:true,
         preserveScroll:true,
         onSuccess: () => {
             form.reset();
@@ -56,7 +58,10 @@ function createComment() {
                     <div class="flex gap-4 text-gray-600">
                         <!-- Upload Picture Button -->
                         <div>
-                            <input type="file" name="picture" id="picture" class="hidden" />
+                            <input type="file" @input="form.image = $event.target.files[0]" name="picture" id="picture" class="hidden" />
+                            <progress v-if="form.progress" :value="form.progress.percentage" max="100">
+                                {{ form.progress.percentage }}%
+                            </progress>
 
                             <label for="picture"
                                 class="-m-2 flex gap-2 text-xs items-center rounded-full p-2 text-gray-600 hover:text-gray-800 cursor-pointer">
