@@ -11,16 +11,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Comment extends Model
 {
     use HasFactory;
+    use HasUserStamps;
     use HasUuids;
     use SoftDeletes;
-    use HasUserStamps;
 
     protected $fillable = [
         'post_id',
         'user_id',
         'content',
         'media',
-        'total_likes'
+        'total_likes',
     ];
 
     public function post()
@@ -30,6 +30,6 @@ class Comment extends Model
 
     public function author()
     {
-        return $this->belongsTo(User::class, 'user_id','id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

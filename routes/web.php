@@ -17,23 +17,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register')
-//     ]);
-// });
-
-// Route::get('/login', function () {
-//     return Inertia::render('Home');
-// })->middleware(['auth', 'verified'])->name('message');
-
-// Route::get('/message', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('message');
-
-
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -60,14 +43,14 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
-     // Comments routes
+    // Comments routes
     //  Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
     //  Route::get('/comments/create', [CommentController::class, 'create'])->name('comments.create');
-     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
-     Route::get('/comments/{comment}', [CommentController::class, 'show'])->name('comments.show');
-     Route::get('/comments/{comment}/edit', [CommentController::class, 'edit'])->name('comments.edit');
-     Route::patch('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
-     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::get('/comments/{comment}', [CommentController::class, 'show'])->name('comments.show');
+    Route::get('/comments/{comment}/edit', [CommentController::class, 'edit'])->name('comments.edit');
+    Route::patch('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
     // Profile Routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

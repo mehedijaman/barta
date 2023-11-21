@@ -2,21 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Illuminate\Http\Response;
 
 class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        $posts = Post::with(['author','comments.author'])->orderBy('created_at', 'desc')->paginate();
-
-        if($request->wantsJson()){
-            error_log('Request wants JSON');
-            return [];
-        }
+        $posts = Post::with(['author', 'comments.author'])->orderBy('created_at', 'desc')->get();
 
         return Inertia::render('Home', ['posts' => $posts]);
     }

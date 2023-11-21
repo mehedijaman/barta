@@ -7,12 +7,15 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Post extends Model
+class Post extends Model implements HasMedia
 {
     use HasFactory;
     use HasUserStamps;
     use HasUuids;
+    use InteractsWithMedia;
     use SoftDeletes;
 
     protected $fillable = [
@@ -26,11 +29,13 @@ class Post extends Model
         'hashtags',
     ];
 
-    public function author(){
+    public function author()
+    {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function comments(){
+    public function comments()
+    {
         return $this->hasMany(Comment::class)->orderBy('created_at', 'desc');
     }
 }

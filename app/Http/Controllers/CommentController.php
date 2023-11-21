@@ -21,7 +21,6 @@ class CommentController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -31,7 +30,7 @@ class CommentController extends Controller
     {
         Comment::create([
             'post_id' => $request->postId,
-            'content' => $request->content
+            'content' => $request->content,
         ]);
 
         return back()->with('success', 'Comment Created Successfully');
@@ -67,6 +66,7 @@ class CommentController extends Controller
     public function destroy(Comment $comment)
     {
         Comment::destroy($comment->id);
+
         return back();
     }
 }
