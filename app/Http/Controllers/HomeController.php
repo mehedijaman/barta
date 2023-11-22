@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -15,5 +16,17 @@ class HomeController extends Controller
             ->get();
 
         return Inertia::render('Home', ['posts' => $posts]);
+    }
+
+    public function search(string $searchText){
+        $posts = Post::Where('content', 'like', '%' . $searchText . '%')
+            ->with(['author', 'media', 'comments.author'])
+            ->get();
+
+        $users = User::where('name', 'like', '%'.$searchText . '%')
+            ->orWhere('email', '=', $searchText)
+            ->get();
+
+        return inertia('SearchResult', ['posts' => $posts, 'users' => $users]);
     }
 }

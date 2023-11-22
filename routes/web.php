@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/search/{text}', [HomeController::class, 'search'])->name('search');
 
     // User routes
     // Route::get('/{username}', [UserController::class, 'index'])->name('user.index');

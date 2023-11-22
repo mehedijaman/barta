@@ -9,11 +9,19 @@ import { Link } from '@inertiajs/vue3';
 import ToastNotification from '@/Components/ToastNotification.vue';
 import { usePage } from '@inertiajs/vue3';
 import UserProfilePhoto from '@/Components/UserProfilePhoto.vue';
+import { router } from '@inertiajs/vue3';
 
 const page = usePage();
 const authUser = computed(() => page.props.auth.user);
 
 const showingNavigationDropdown = ref(false);
+
+const searchText = ref(null);
+
+function search() {
+    const text = searchText.value;
+    router.get(route('search', { text }));
+}
 </script>
 
 <template>
@@ -34,7 +42,11 @@ const showingNavigationDropdown = ref(false);
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <form class="flex items-center">
+
+                                <!-- <NavLink :href="route('home')" :active="route().current('home')">
+                                    Home
+                                </NavLink> -->
+                                <div class="flex items-center">
                                     <div class="relative w-full">
                                         <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                                             <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"
@@ -44,14 +56,11 @@ const showingNavigationDropdown = ref(false);
                                                     clip-rule="evenodd"></path>
                                             </svg>
                                         </div>
-                                        <input type="text" id="voice-search"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            placeholder="Search..." required>
+                                        <input v-model="searchText" @change.prevent="search()" type="text"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-2xl focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="Search...">
                                     </div>
-                                </form>
-                                <NavLink :href="route('home')" :active="route().current('home')">
-                                    Home
-                                </NavLink>
+                                </div>
                                 <!-- <NavLink :href="route('user.friends', 'mehedijaman')" :active="route().current('friends')">
                                     Friends
                                 </NavLink>
