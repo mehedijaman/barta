@@ -27,7 +27,7 @@ class UserController extends Controller
                 'media',
                 'comments.author',
                 'comments.media'
-                )
+            )
             ->first();
 
         return Inertia::render('Post/ShowPost', ['post' => $post]);

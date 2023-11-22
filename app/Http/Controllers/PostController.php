@@ -37,7 +37,7 @@ class PostController extends Controller
             'content' => $request->content,
         ]);
 
-        if($request->image){
+        if ($request->image) {
 
             $post->addMedia($request->image)->toMediaCollection();
         }

@@ -33,7 +33,7 @@ class CommentController extends Controller
             'content' => $request->content,
         ]);
 
-        if($request->image){
+        if ($request->image) {
             $comment->addMedia($request->image)->toMediaCollection();
         }
 

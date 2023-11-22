@@ -15,8 +15,8 @@ class Comment extends Model implements HasMedia
     use HasFactory;
     use HasUserStamps;
     use HasUuids;
-    use SoftDeletes;
     use InteractsWithMedia;
+    use SoftDeletes;
 
     protected $fillable = [
         'post_id',

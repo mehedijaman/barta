@@ -1,6 +1,6 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
 import AuthenticatedLayout from './AuthenticatedLayout.vue';
@@ -13,9 +13,10 @@ const props = defineProps({
     total: Object
 });
 
-// const totalPosts = computed(() => {
-//     return props.posts ? props.posts.length : 0;
-// });
+const profilePhotoModal = ref(false);
+const coverPhotoModal = ref(false);
+
+
 </script>
 <template>
     <Head :title="props.user.name" />
@@ -28,7 +29,7 @@ const props = defineProps({
                         src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                         class="w-full">
                     <div v-if="props.user.username == authUser.username" class="absolute top-4 ltr:right-4 rtl:left-4">
-                        <button @click="open = true" type="button"
+                        <button @click="coverPhotoModal = !coverPhotoModal" type="button"
                             class="group-hover:opacity-80 opacity-0 py-1.5 px-3 inline-block text-center mb-3 rounded leading-5 text-gray-800 bg-gray-200 border border-gray-200 hover:text-gray-900 hover:bg-gray-300 hover:ring-0 hover:border-gray-300 focus:bg-gray-300 focus:border-gray-300 focus:outline-none focus:ring-0">Edit
                             cover <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="inline-block bi bi-camera" viewBox="0 0 16 16">
@@ -38,11 +39,12 @@ const props = defineProps({
                                 <path
                                     d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z">
                                 </path>
-                            </svg></button>
+                            </svg>
+                        </button>
                     </div>
                 </div>
                 <div class="flex justify-center -mt-10 relative">
-                    <a @click="open = true" class="z-30 group" href="javascript:;">
+                    <a @click="profilePhotoModal = !profilePhotoModal" class="z-30 group" href="javascript:;">
                         <svg v-if="props.user.image == null" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                             fill="currentColor"
                             class="rounded-full w-24 h-24 bg-gray-200 border-solid border-white border-2 -mt-3">
@@ -88,36 +90,37 @@ const props = defineProps({
                 <!-- Navbar -->
                 <div class="antialiased bg-gray-100 dark-mode:bg-gray-900">
                     <div class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
-                        <div class="flex flex-col max-w-screen-xl mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8">
+                        <div
+                            class="flex flex-col max-w-screen-xl mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8">
                             <nav class="flex-col flex-grow hidden pb-4 md:pb-4 md:flex md:justify-start md:flex-row">
                                 <Link
                                     class="px-4 py-2 mt-2 text-sm font-semibold bg-gray-200 rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                                    :class="route().current('user.posts')?'bg-gray-200':'bg-transparent'"
+                                    :class="route().current('user.posts') ? 'bg-gray-200' : 'bg-transparent'"
                                     :href="route('user.posts', props.user.username)">Posts</Link>
                                 <Link
                                     class="px-4 py-2 mt-2 text-sm font-semibold rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                                    :class="route().current('user.about')?'bg-gray-200':'bg-transparent'"
+                                    :class="route().current('user.about') ? 'bg-gray-200' : 'bg-transparent'"
                                     :href="route('user.about', props.user.username)">About</Link>
 
                                 <Link
                                     class="px-4 py-2 mt-2 text-sm font-semibold rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                                    :class="route().current('user.friends')?'bg-gray-200':'bg-transparent'"
+                                    :class="route().current('user.friends') ? 'bg-gray-200' : 'bg-transparent'"
                                     :href="route('user.friends', props.user.username)">Friends</Link>
                                 <Link
                                     class="px-4 py-2 mt-2 text-sm font-semibold rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                                    :class="route().current('user.photos')?'bg-gray-200':'bg-transparent'"
+                                    :class="route().current('user.photos') ? 'bg-gray-200' : 'bg-transparent'"
                                     :href="route('user.photos', props.user.username)">Photos</Link>
                                 <Link
                                     class="px-4 py-2 mt-2 text-sm font-semibold rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                                    :class="route().current('user.followers')?'bg-gray-200':'bg-transparent'"
+                                    :class="route().current('user.followers') ? 'bg-gray-200' : 'bg-transparent'"
                                     :href="route('user.followers', props.user.username)">Followers</Link>
                                 <Link
                                     class="px-4 py-2 mt-2 text-sm font-semibold rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                                    :class="route().current('user.videos')?'bg-gray-200':'bg-transparent'"
+                                    :class="route().current('user.videos') ? 'bg-gray-200' : 'bg-transparent'"
                                     :href="route('user.videos', props.user.username)">Videos</Link>
                                 <Link
                                     class="px-4 py-2 mt-2 text-sm font-semibold rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                                    :class="route().current('user.groups')?'bg-gray-200':'bg-transparent'"
+                                    :class="route().current('user.groups') ? 'bg-gray-200' : 'bg-transparent'"
                                     :href="route('user.groups', props.user.username)">Groups</Link>
 
 
@@ -175,4 +178,114 @@ const props = defineProps({
                 <slot></slot>
             </div>
         </div>
-</AuthenticatedLayout></template>
+        <div v-if="profilePhotoModal"
+            class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster"
+            style="background: rgba(0,0,0,.7);">
+            <div
+                class="border border-teal-500 modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                <div class="modal-content py-4 text-left px-6">
+                    <!--Title-->
+                    <div class="flex justify-between items-center pb-3">
+                        <p class="text-2xl font-bold">Update Profile Photo</p>
+                        <div class="modal-close cursor-pointer z-50">
+                            <svg @click="profilePhotoModal = !profilePhotoModal" class="fill-current text-black"
+                                xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                                <path
+                                    d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                    <!--Body-->
+                    <div class="my-5">
+                        <input type="file" name="image">
+                    </div>
+                    <!--Footer-->
+                    <div class="flex justify-end pt-2">
+                        <button @click="profilePhotoModal = !profilePhotoModal"
+                            class="focus:outline-none modal-close px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Cancel</button>
+                        <button
+                            class="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div v-if="coverPhotoModal"
+            class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster"
+            style="background: rgba(0,0,0,.7);">
+            <div
+                class="border border-teal-500 modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                <div class="modal-content py-4 text-left px-6">
+                    <!--Title-->
+                    <div class="flex justify-between items-center pb-3">
+                        <p class="text-2xl font-bold">Update Cover Photo</p>
+                        <div class="modal-close cursor-pointer z-50">
+                            <svg @click="coverPhotoModal = !coverPhotoModal" class="fill-current text-black"
+                                xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                                <path
+                                    d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                    <!--Body-->
+                    <div class="my-5">
+                        <input type="file" name="image">
+                    </div>
+                    <!--Footer-->
+                    <div class="flex justify-end pt-2">
+                        <button @click="coverPhotoModal = !coverPhotoModal"
+                            class="focus:outline-none modal-close px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Cancel</button>
+                        <button
+                            class="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </AuthenticatedLayout>
+</template>
+<style>
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.animated.faster {
+    -webkit-animation-duration: 500ms;
+    animation-duration: 500ms;
+}
+
+.fadeIn {
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+}
+
+.fadeOut {
+    -webkit-animation-name: fadeOut;
+    animation-name: fadeOut;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+</style>
