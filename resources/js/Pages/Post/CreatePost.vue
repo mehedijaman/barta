@@ -16,7 +16,7 @@ const form = useForm({
 
 function createPost() {
     form.post(route('posts.store'), {
-        formFormData: true,
+        forceFormData:true,
         preserveScroll:true,
         onSuccess: () => {
             form.reset();

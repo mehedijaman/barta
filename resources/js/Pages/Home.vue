@@ -8,10 +8,12 @@ import { ref, onMounted, onUnmounted } from 'vue';
 const props = defineProps({
     posts:Object
 });
+
+const pageMeta = { name: 'description', content: 'Description Text' };
 </script>
 
 <template>
-    <Head title="Home" />
+    <Head title="Home" :meta="pageMeta" />
 
     <AuthenticatedLayout>
         <CreatePost></CreatePost>

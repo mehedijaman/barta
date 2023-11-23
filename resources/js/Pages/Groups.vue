@@ -18,8 +18,8 @@ const props = defineProps({
 
 const total = {
     'posts': computed(() => props.posts ? props.posts.length : 0),
-    'friends': 0,
-    'groups': 0
+    'friends': computed(() => props.friends? props.friends.length : 0),
+    'groups': computed(() => props.groups? props.groups.length : 0)
 }
 </script>
 

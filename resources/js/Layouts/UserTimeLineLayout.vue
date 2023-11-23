@@ -1,9 +1,10 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
-import { usePage } from '@inertiajs/vue3';
+import { usePage, useForm } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
 import AuthenticatedLayout from './AuthenticatedLayout.vue';
+import toast from '@/Stores/toast';
 
 const page = usePage();
 const authUser = page.props.auth.user;
@@ -14,7 +15,33 @@ const props = defineProps({
 });
 
 const profilePhotoModal = ref(false);
+function toggleProfilePhotoModal(){
+    profilePhotoModal.value = !profilePhotoModal.value;
+}
+
 const coverPhotoModal = ref(false);
+function toggleCoverPhotoModal(){
+    coverPhotoModal.value = !coverPhotoModal.value;
+}
+
+const profilePhotoUpdateForm = useForm({
+    image:null,
+});
+const coverPhotoUpdateForm = useForm({
+    image:null,
+});
+
+function profilePhotoUpdate(){
+    profilePhotoUpdateForm.patch(route('profile.photo.update'), {
+        forceFormData:true,
+        preserveScroll:true,
+        onSuccess: () => {
+            toast.add({
+                message: 'Post Published successfully'
+            });
+        }
+    });
+}
 
 
 </script>
@@ -29,7 +56,7 @@ const coverPhotoModal = ref(false);
                         src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                         class="w-full">
                     <div v-if="props.user.username == authUser.username" class="absolute top-4 ltr:right-4 rtl:left-4">
-                        <button @click="coverPhotoModal = !coverPhotoModal" type="button"
+                        <button @click="toggleCoverPhotoModal()" type="button"
                             class="group-hover:opacity-80 opacity-0 py-1.5 px-3 inline-block text-center mb-3 rounded leading-5 text-gray-800 bg-gray-200 border border-gray-200 hover:text-gray-900 hover:bg-gray-300 hover:ring-0 hover:border-gray-300 focus:bg-gray-300 focus:border-gray-300 focus:outline-none focus:ring-0">Edit
                             cover <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="inline-block bi bi-camera" viewBox="0 0 16 16">
@@ -44,7 +71,7 @@ const coverPhotoModal = ref(false);
                     </div>
                 </div>
                 <div class="flex justify-center -mt-10 relative">
-                    <a @click="profilePhotoModal = !profilePhotoModal" class="z-30 group" href="javascript:;">
+                    <a @click="toggleProfilePhotoModal()" class="z-30 group" href="javascript:;">
                         <svg v-if="props.user.image == null" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                             fill="currentColor"
                             class="rounded-full w-24 h-24 bg-gray-200 border-solid border-white border-2 -mt-3">
@@ -188,7 +215,7 @@ const coverPhotoModal = ref(false);
                     <div class="flex justify-between items-center pb-3">
                         <p class="text-2xl font-bold">Update Profile Photo</p>
                         <div class="modal-close cursor-pointer z-50">
-                            <svg @click="profilePhotoModal = !profilePhotoModal" class="fill-current text-black"
+                            <svg @click="toggleProfilePhotoModal()" class="fill-current text-black"
                                 xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                                 <path
                                     d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
@@ -198,13 +225,13 @@ const coverPhotoModal = ref(false);
                     </div>
                     <!--Body-->
                     <div class="my-5">
-                        <input type="file" name="image">
+                        <input type="file" name="image" @input="profilePhotoUpdateForm.image = $event.target.files[0]">
                     </div>
                     <!--Footer-->
                     <div class="flex justify-end pt-2">
-                        <button @click="profilePhotoModal = !profilePhotoModal"
+                        <button @click="toggleProfilePhotoModal()"
                             class="focus:outline-none modal-close px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Cancel</button>
-                        <button
+                        <button @click.prevent="profilePhotoUpdate()"
                             class="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">Confirm</button>
                     </div>
                 </div>
@@ -221,7 +248,7 @@ const coverPhotoModal = ref(false);
                     <div class="flex justify-between items-center pb-3">
                         <p class="text-2xl font-bold">Update Cover Photo</p>
                         <div class="modal-close cursor-pointer z-50">
-                            <svg @click="coverPhotoModal = !coverPhotoModal" class="fill-current text-black"
+                            <svg @click="toggleCoverPhotoModal()" class="fill-current text-black"
                                 xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                                 <path
                                     d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
@@ -235,7 +262,7 @@ const coverPhotoModal = ref(false);
                     </div>
                     <!--Footer-->
                     <div class="flex justify-end pt-2">
-                        <button @click="coverPhotoModal = !coverPhotoModal"
+                        <button @click="toggleCoverPhotoModal()"
                             class="focus:outline-none modal-close px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Cancel</button>
                         <button
                             class="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">Confirm</button>

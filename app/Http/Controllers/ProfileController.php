@@ -40,9 +40,16 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('success', 'Profile updated successfully.');
     }
 
-    public function updateProfilePhoto()
+    public function updateProfilePhoto(Request $request)
     {
-        //
+        if ($request->hasFile('profile_photo')) {
+            // Clear existing media to replace it with the new one (optional)
+            $user->clearMediaCollection('profile_photos');
+
+            // Add the new profile photo
+            $user->addMediaFromRequest('profile_photo')
+                ->toMediaCollection('profile_photos');
+        }
     }
 
     public function updateCoverPhoto()
