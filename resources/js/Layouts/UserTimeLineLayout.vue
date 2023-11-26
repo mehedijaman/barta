@@ -8,6 +8,7 @@ import toast from '@/Stores/toast';
 
 const page = usePage();
 const authUser = page.props.auth.user;
+const userId = authUser.id;
 
 const props = defineProps({
     user: Object,
@@ -25,24 +26,37 @@ function toggleCoverPhotoModal(){
 }
 
 const profilePhotoUpdateForm = useForm({
-    image:null,
+    image: null,
 });
 const coverPhotoUpdateForm = useForm({
-    image:null,
+    image: null,
 });
 
-function profilePhotoUpdate(){
-    profilePhotoUpdateForm.patch(route('profile.photo.update'), {
+function updateProfilePhoto(){
+    profilePhotoUpdateForm.post(route('profile.photo.update', { userid:userId }), {
         forceFormData:true,
         preserveScroll:true,
         onSuccess: () => {
+            toggleProfilePhotoModal();
             toast.add({
-                message: 'Post Published successfully'
+                message: 'Profile Photo Updated successfully'
             });
         }
     });
 }
 
+function updateCoverPhoto(){
+    coverPhotoUpdateForm.post(route('profile.cover.photo.update', { userid:userId }), {
+        forceFormData:true,
+        preserveScroll:true,
+        onSuccess: () => {
+            toggleCoverPhotoModal();
+            toast.add({
+                message: 'Cover Photo Updated successfully'
+            });
+        }
+    });
+}
 
 </script>
 <template>
@@ -51,9 +65,9 @@ function profilePhotoUpdate(){
         <div class="flex-shrink max-w-full px-4 w-full mb-6">
             <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg mb-8">
                 <div class="group h-40 overflow-hidden relative">
-                    <img v-if="props.user.cover != null" src="src/img/blog/bg.jpg" class="w-full">
+                    <img v-if="props.user.media == null" src="src/img/blog/bg.jpg" class="w-full">
                     <img v-else
-                        src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        :src="`/media/${props.user.media[1].id}/${props.user.media[1].file_name}`"
                         class="w-full">
                     <div v-if="props.user.username == authUser.username" class="absolute top-4 ltr:right-4 rtl:left-4">
                         <button @click="toggleCoverPhotoModal()" type="button"
@@ -72,15 +86,16 @@ function profilePhotoUpdate(){
                 </div>
                 <div class="flex justify-center -mt-10 relative">
                     <a @click="toggleProfilePhotoModal()" class="z-30 group" href="javascript:;">
-                        <svg v-if="props.user.image == null" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        <svg v-if="props.user.media[0].name == null" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                             fill="currentColor"
                             class="rounded-full w-24 h-24 bg-gray-200 border-solid border-white border-2 -mt-3">
                             <path fill-rule="evenodd"
                                 d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
                                 clip-rule="evenodd" />
                         </svg>
-                        <img v-else src="src/img/avatar/avatar.png"
+                        <img v-else :src="`/media/${props.user.media[0].id}/${props.user.media[0].file_name}`"
                             class="rounded-full w-24 h-24 bg-gray-200 border-solid border-white border-2 -mt-3">
+
                         <div v-if="props.user.username == authUser.username" title="Change avatar"
                             class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 text-white dark:text-gray-900">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -205,6 +220,7 @@ function profilePhotoUpdate(){
                 <slot></slot>
             </div>
         </div>
+
         <div v-if="profilePhotoModal"
             class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster"
             style="background: rgba(0,0,0,.7);">
@@ -224,16 +240,21 @@ function profilePhotoUpdate(){
                         </div>
                     </div>
                     <!--Body-->
+                <form @submit.prevent="updateProfilePhoto()" class="space-y-3">
                     <div class="my-5">
-                        <input type="file" name="image" @input="profilePhotoUpdateForm.image = $event.target.files[0]">
+                        <input type="file" @input="profilePhotoUpdateForm.image = $event.target.files[0]" id="image" />
+                        <progress v-if="profilePhotoUpdateForm.progress" :value="profilePhotoUpdateForm.progress.percentage" max="100">
+                            {{ profilePhotoUpdateForm.progress.percentage }}%
+                        </progress>
                     </div>
                     <!--Footer-->
                     <div class="flex justify-end pt-2">
                         <button @click="toggleProfilePhotoModal()"
                             class="focus:outline-none modal-close px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Cancel</button>
-                        <button @click.prevent="profilePhotoUpdate()"
+                        <button type="submit"
                             class="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">Confirm</button>
                     </div>
+                </form>
                 </div>
             </div>
         </div>
@@ -257,16 +278,21 @@ function profilePhotoUpdate(){
                         </div>
                     </div>
                     <!--Body-->
+                <form @submit.prevent="updateCoverPhoto()" class="space-y-3">
                     <div class="my-5">
-                        <input type="file" name="image">
+                        <input type="file" @input="coverPhotoUpdateForm.image = $event.target.files[0]" id="image" />
+                        <progress v-if="coverPhotoUpdateForm.progress" :value="coverPhotoUpdateForm.progress.percentage" max="100">
+                            {{ coverPhotoUpdateForm.progress.percentage }}%
+                        </progress>
                     </div>
                     <!--Footer-->
                     <div class="flex justify-end pt-2">
                         <button @click="toggleCoverPhotoModal()"
                             class="focus:outline-none modal-close px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Cancel</button>
-                        <button
+                        <button type="submit"
                             class="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">Confirm</button>
                     </div>
+                </form>
                 </div>
             </div>
         </div>

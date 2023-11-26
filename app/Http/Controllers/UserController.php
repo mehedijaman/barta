@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function posts(string $username)
     {
-        $user = User::where('username', $username)->first();
+        $user = User::where('username', $username)->with('media')->first();
         $posts = Post::with('author', 'media')
             ->where('user_id', $user->id)
             ->orderBy('created_at', 'desc')

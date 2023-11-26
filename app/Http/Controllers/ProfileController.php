@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -40,21 +41,26 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('success', 'Profile updated successfully.');
     }
 
-    public function updateProfilePhoto(Request $request)
+    public function updateProfilePhoto(Request $request, string $userId)
     {
-        if ($request->hasFile('profile_photo')) {
-            // Clear existing media to replace it with the new one (optional)
-            $user->clearMediaCollection('profile_photos');
+        $user = User::find($userId);
 
-            // Add the new profile photo
-            $user->addMediaFromRequest('profile_photo')
-                ->toMediaCollection('profile_photos');
+        if ($request->image) {
+            $user->clearMediaCollection('profile-photo')
+                ->addMedia($request->image)
+                ->toMediaCollection('profile-photo');
         }
     }
 
-    public function updateCoverPhoto()
+    public function updateCoverPhoto(Request $request, string $userId)
     {
-        //
+        $user = User::find($userId);
+
+        if ($request->image) {
+            $user->clearMediaCollection('cover-photo')
+                ->addMedia($request->image)
+                ->toMediaCollection('cover-photo');
+        }
     }
 
     /**
