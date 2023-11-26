@@ -16,6 +16,9 @@ jobs:
       - name: Setup node package
         uses: actions/setup-node@master
 
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v2
