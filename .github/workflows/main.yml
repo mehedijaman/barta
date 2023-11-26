@@ -43,7 +43,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /
+          server-dir: /home/mehedipata/barta.mehedipata.com
 
   post-deploy:
     name: Post-Deploy
