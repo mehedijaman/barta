@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
+use App\Http\Requests\StorePostRequest;
+use App\Services\PostService;
 
 class PostController extends Controller
 {
@@ -27,21 +29,33 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    // public function store(Request $request)
+    // {
+    //     // return $request;
+    //     $request->validate([
+    //         'content' => 'required',
+    //     ]);
+
+    //     $post = Post::create([
+    //         'content' => $request->content,
+    //     ]);
+
+    //     if ($request->image) {
+
+    //         $post->addMedia($request->image)->toMediaCollection();
+    //     }
+
+    //     return back()->with('success', 'Post Created Successfully');
+    // }
+
+    public function store(StorePostRequest $request, PostService $postService)
     {
-        // return $request;
-        $request->validate([
-            'content' => 'required',
-        ]);
+        $this->authorize('create', Post::class);
 
-        $post = Post::create([
-            'content' => $request->content,
-        ]);
-
-        if ($request->image) {
-
-            $post->addMedia($request->image)->toMediaCollection();
-        }
+        $postService->store(
+            $request->validated(),
+            $request->hasFile('image') ? $request->file('image'): null,
+        );
 
         return back()->with('success', 'Post Created Successfully');
     }
@@ -51,7 +65,7 @@ class PostController extends Controller
      */
     public function show(post $post)
     {
-        $post = Post::with(['author', 'comments.author'])->find($post->id);
+        $post = Post::with(['author','media','comments.author'])->find($post->id);
 
         return Inertia::render('Post/ShowPost', ['post' => $post]);
     }

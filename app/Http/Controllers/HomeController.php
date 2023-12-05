@@ -6,14 +6,13 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        $posts = Post::with(['author', 'media', 'comments.author'])
-            ->orderBy('created_at', 'desc')
+        $posts = Post::with(['author.media', 'media', 'comments.author'])
+            ->latest()
             ->get();
 
         return Inertia::render('Home', ['posts' => $posts]);
@@ -23,6 +22,7 @@ class HomeController extends Controller
     {
         $posts = Post::Where('content', 'like', '%'.$searchText.'%')
             ->with(['author', 'media', 'comments.author'])
+            ->latest()
             ->get();
 
         $users = User::where('name', 'like', '%'.$searchText.'%')

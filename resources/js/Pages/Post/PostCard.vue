@@ -80,7 +80,7 @@ function deletePost(post) {
 
                 <!-- Card Action Dropdown -->
                 <div v-if="authUser.id == post.user_id" class="flex flex-shrink-0 self-center" x-data="{ open: false }">
-                    <div class="relative inline-block text-left">
+                    <div class="relative inline-block text-left ">
                         <div>
                             <button @click="toggleDropdown(props.post.id)" type="button"
                                 class="-m-2 flex items-center rounded-full p-2 text-gray-400 hover:text-gray-600"
@@ -118,8 +118,10 @@ function deletePost(post) {
         </header>
 
         <div class="py-2 text-gray-700 font-normal">
-            <img v-if="props.post.media && props.post.media.length != 0" :src="`/media/${props.post.media[0].id}/${props.post.media[0].file_name}`"
-                class="min-h-auto w-full rounded-lg object-cover max-h-64 md:max-h-72" alt="" />
+            <template v-if="props.post.media">
+                <img v-for="(media, index) in props.post.media" :src="media.original_url"
+                    class="min-h-auto w-full rounded-lg object-cover max-h-64 md:max-h-72" alt="" />
+            </template>
             <p v-html="props.post.content"></p>
         </div>
 

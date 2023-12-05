@@ -2,15 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
  */
-class CommentFactory extends Factory
+class PostFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,11 +18,11 @@ class CommentFactory extends Factory
      */
     public function definition(): array
     {
+        // $userId = User::inRandomOrder()->first()->id;
+
         return [
-            'uuid' => Str::uuid(),
-            'post_id' => Post::factory(),
             'user_id' => User::factory(),
-            'content' => fake()->paragraph(5),
+            'content' => fake()->paragraph(10)
         ];
     }
 }

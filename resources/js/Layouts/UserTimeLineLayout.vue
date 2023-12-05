@@ -15,6 +15,24 @@ const props = defineProps({
     total: Object
 });
 
+const profilePhotoURL = function(){
+    const profilePhoto = props.user.media.find(item => item.collection_name === 'profile-photo');
+
+    if(profilePhoto)
+        return profilePhoto.original_url;
+    else
+        return null;
+}
+
+const coverPhotoURL = function(){
+    const coverPhoto = props.user.media.find(item => item.collection_name === 'cover-photo');
+
+    if(coverPhoto)
+        return coverPhoto.original_url;
+    else
+        return null;
+}
+
 const profilePhotoModal = ref(false);
 function toggleProfilePhotoModal(){
     profilePhotoModal.value = !profilePhotoModal.value;
@@ -65,10 +83,8 @@ function updateCoverPhoto(){
         <div class="flex-shrink max-w-full px-4 w-full mb-6">
             <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg mb-8">
                 <div class="group h-40 overflow-hidden relative">
-                    <img v-if="props.user.media == null" src="src/img/blog/bg.jpg" class="w-full">
-                    <img v-else
-                        :src="`/media/${props.user.media[1].id}/${props.user.media[1].file_name}`"
-                        class="w-full">
+                    <img v-if="coverPhotoURL() != null" :src="coverPhotoURL()" class="w-full">
+                    <img v-else src="https://images.unsplash.com/photo-1682687982046-e5e46906bc6e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="w-full">
                     <div v-if="props.user.username == authUser.username" class="absolute top-4 ltr:right-4 rtl:left-4">
                         <button @click="toggleCoverPhotoModal()" type="button"
                             class="group-hover:opacity-80 opacity-0 py-1.5 px-3 inline-block text-center mb-3 rounded leading-5 text-gray-800 bg-gray-200 border border-gray-200 hover:text-gray-900 hover:bg-gray-300 hover:ring-0 hover:border-gray-300 focus:bg-gray-300 focus:border-gray-300 focus:outline-none focus:ring-0">Edit
@@ -86,15 +102,16 @@ function updateCoverPhoto(){
                 </div>
                 <div class="flex justify-center -mt-10 relative">
                     <a @click="toggleProfilePhotoModal()" class="z-30 group" href="javascript:;">
-                        <svg v-if="props.user.media[0].name == null" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+
+                        <svg v-if="profilePhotoURL() == null" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                             fill="currentColor"
                             class="rounded-full w-24 h-24 bg-gray-200 border-solid border-white border-2 -mt-3">
                             <path fill-rule="evenodd"
                                 d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
                                 clip-rule="evenodd" />
                         </svg>
-                        <img v-else :src="`/media/${props.user.media[0].id}/${props.user.media[0].file_name}`"
-                            class="rounded-full w-24 h-24 bg-gray-200 border-solid border-white border-2 -mt-3">
+
+                        <img v-else :src="profilePhotoURL()" class="rounded-full w-24 h-24 bg-gray-200 border-solid border-white border-2 -mt-3">
 
                         <div v-if="props.user.username == authUser.username" title="Change avatar"
                             class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 text-white dark:text-gray-900">

@@ -13,7 +13,7 @@ class UserController extends Controller
         $user = User::where('username', $username)->with('media')->first();
         $posts = Post::with('author', 'media')
             ->where('user_id', $user->id)
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->get();
 
         return Inertia::render('Timeline', ['posts' => $posts, 'user' => $user]);

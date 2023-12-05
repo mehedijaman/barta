@@ -50,7 +50,7 @@ function deleteComment(comment){
                 <div class="flex items-center space-x-3">
                     <!-- User Avatar -->
                     <div class="flex-shrink-0">
-                        <UserProfilePhoto :photo="props.comment.author.image"></UserProfilePhoto>
+                        <!-- <UserProfilePhoto :photo="props.comment.author.image"></UserProfilePhoto> -->
                     </div>
 
                     <!-- User Info -->
@@ -103,8 +103,9 @@ function deleteComment(comment){
         </header>
 
         <div class="py-2 text-gray-700 font-normal">
-            <img v-if="props.comment.media && props.comment.media.length != 0" :src="`/media/${props.comment.media[0].id}/${props.comment.media[0].file_name}`"
-                class="min-h-auto w-full rounded-lg object-cover max-h-64 md:max-h-72" alt="" />
+            <template v-if="props.comment.media">
+                <img v-for ="(media, index) in props.comment.media" :key="index" :src="media.original_url" class="min-h-auto w-full rounded-lg object-contain max-h-64 md:max-h-72" alt="" />
+            </template>
             <p v-html="props.comment.content"></p>
         </div>
 
@@ -150,5 +151,4 @@ function deleteComment(comment){
             <!-- /Card Bottom Action Buttons -->
         </footer>
     </article>
-
 </template>

@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('username')->unique()->after('name');
-            $table->string('image')->nullable()->after('password');
+        Schema::table('media', function (Blueprint $table) {
+            $table->uuid('model_id')->change();
         });
     }
 
@@ -22,9 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('username');
-            $table->dropColumn('image');
+        Schema::table('media', function (Blueprint $table) {
+            $table->unsignedBigInteger('model_id')->change();
         });
     }
 };

@@ -9,7 +9,7 @@ const props = defineProps({
 const totalComments = computed(() => props.comments.length);
 </script>
 <template>
-    <div class="flex flex-col space-y-6 max-w-2xl mx-auto">
+    <div class="flex flex-col space-y-6 max-w-xl mx-auto">
         <hr class="mt-4"/>
         <p class="text-lg font-semibold">Comments ({{ totalComments }})</p>
         <TransitionGroup name="fade">

@@ -12,20 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('posts', function (Blueprint $table) {
+            // $table->id();
             $table->uuid('id')->primary();
-            $table->unsignedBigInteger('user_id')->index();
-            $table->longText('content');
-            $table->string('media')->nullable();
+            $table->foreignId('user_id')->constrained('users');
+            $table->longText('content')->nullable();
             $table->integer('total_likes')->nullable();
             $table->integer('total_comments')->nullable();
             $table->integer('total_shares')->nullable();
-            $table->string('privacy_level')->nullable();
-            $table->string('hashtags')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -34,6 +30,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+        });
+
         Schema::dropIfExists('posts');
     }
 };

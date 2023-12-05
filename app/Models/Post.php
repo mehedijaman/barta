@@ -2,40 +2,48 @@
 
 namespace App\Models;
 
+use App\Models\User;
+use Illuminate\Support\Str;
 use App\Traits\HasUserStamps;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model implements HasMedia
 {
     use HasFactory;
     use HasUserStamps;
-    use HasUuids;
     use InteractsWithMedia;
     use SoftDeletes;
+    use HasUuids;
 
     protected $fillable = [
         'user_id',
         'content',
-        'media',
         'total_likes',
         'total_comments',
         'total_shares',
-        'privacy_level',
-        'hashtags',
     ];
+
+    // protected static function boot()
+    // {
+    //     parent::boot();
+
+    //     static::creating(function ($model) {
+    //         $model->id = Str::uuid();
+    //     });
+    // }
 
     public function author()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function comments()
     {
-        return $this->hasMany(Comment::class)->orderBy('created_at', 'desc');
+        return $this->hasMany(Comment::class)->latest();
     }
 }
