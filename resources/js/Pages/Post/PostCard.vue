@@ -16,6 +16,16 @@ const props = defineProps({
     post: Object
 });
 
+
+// const profilePhotoURL = function(){
+//     const profilePhoto = props.post.author.media.find(item => item.collection_name === 'profile-photo');
+
+//     if(profilePhoto)
+//         return profilePhoto.original_url;
+//     else
+//         return null;
+// }
+
 const totalComments = computed(() => {
     return props.post.comments ? props.post.comments.length : 0;
 });
@@ -60,7 +70,7 @@ function deletePost(post) {
                 <div class="flex items-center space-x-3">
                     <!-- User Avatar -->
                     <div class="flex-shrink-0">
-                        <UserProfilePhoto :photo="props.post.author.image"></UserProfilePhoto>
+                        <UserProfilePhoto ></UserProfilePhoto>
                     </div>
 
                     <!-- User Info -->
