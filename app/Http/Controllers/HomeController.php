@@ -12,8 +12,12 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $posts = Post::with(['author.media', 'media', 'comments.author'])
-            ->latest()
-            ->get();
+        ->paginate(2);
+
+        // return json response when request is ajax
+        if ($request->ajax()) {
+            return response()->json($posts);
+        }
 
         return Inertia::render('Home', ['posts' => $posts]);
     }
